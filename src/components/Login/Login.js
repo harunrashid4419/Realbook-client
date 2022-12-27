@@ -5,8 +5,9 @@ import { AuthContext } from "../../context/UsersContext";
 import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const {login} = useContext(AuthContext);
+  const {login, googleSignUp} = useContext(AuthContext);
   const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleLogIn = event =>{
@@ -19,6 +20,24 @@ const Login = () => {
         const user = result.user;
         console.log(user);
         toast.success('LogIn Successful');
+        navigate('/');
+      })
+      .catch(error =>{
+        console.log(error);
+        setError(error.message);
+      })
+  }
+
+  const handleEmail = event =>{
+    setEmail(event.target.value);
+  }
+
+  const handleGoogleSingUp = () =>{
+    googleSignUp(email)
+      .then(result =>{
+        const user = result.user;
+        console.log(user);
+        toast.success('Google SignUp success');
         navigate('/');
       })
       .catch(error =>{
@@ -44,6 +63,7 @@ const Login = () => {
               required
               className="input input-bordered w-full"
               name="email"
+              onChange={handleEmail}
             />
           </div>
           <div className="form-control w-full">
@@ -63,7 +83,7 @@ const Login = () => {
         <div className="flex flex-col w-full border-opacity-50">
           <div className="divider text-white">OR</div>
         </div>
-        <div className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
+        <div onClick={handleGoogleSingUp} className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
           <p className="text-center text-xl flex justify-center pl-4">
             Sign In With Google
           </p>

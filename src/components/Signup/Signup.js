@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UsersContext";
 
 const Signup = () => {
-    const {createUser, updateUserName} = useContext(AuthContext);
+    const {createUser, updateUserName, googleSignUp} = useContext(AuthContext);
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSignup = event =>{
         event.preventDefault();
@@ -32,6 +33,24 @@ const Signup = () => {
                 console.log(error);
                 setError(error.message);
             })
+    };
+
+    const handleEmail = event =>{
+      setEmail(event.target.value);
+    }
+
+    const handleGoogleSingUp = () =>{
+      googleSignUp(email)
+        .then(result =>{
+          const user = result.user;
+          console.log(user);
+          toast.success('Google SignUp success');
+          navigate('/');
+        })
+        .catch(error =>{
+          console.log(error);
+          setError(error.message);
+        })
     }
 
   return (
@@ -63,6 +82,7 @@ const Signup = () => {
               required
               className="input input-bordered w-full"
               name="email"
+              onChange={handleEmail}
             />
           </div>
           <div className="form-control w-full">
@@ -82,7 +102,7 @@ const Signup = () => {
         <div className="flex flex-col w-full border-opacity-50">
           <div className="divider text-white">OR</div>
         </div>
-        <div className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
+        <div onClick={handleGoogleSingUp} className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
           <p className="text-center text-xl flex justify-center pl-4">
             Sign In With Google
           </p>
