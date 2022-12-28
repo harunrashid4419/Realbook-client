@@ -3,3 +3,10 @@
     padding: 20px 30px;
     border-radius: 10px;
 }
+
+@media screen and (max-width: 576px) {
+    .main-post{
+        padding: 20px 0px;
+    }
+    
+}

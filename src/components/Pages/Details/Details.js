@@ -8,6 +8,7 @@ const Details = () => {
   const details = useLoaderData();
   const { photoURL, userName, email, img, message } = details;
   const [click, setClick] = useState(false);
+  
   return (
     <div className="details-section">
       <div className="container">
@@ -29,17 +30,19 @@ const Details = () => {
             <h6 className="text-orange-600 font-bold text-xl">
               20 People Love
             </h6>
-            <span className="text-2xl" onClick={() => setClick(!click)}>
-              {click ? (
-                <Link>
-                  <BsHeartFill />
-                </Link>
-              ) : (
-                <Link>
-                  <BsHeart />
-                </Link>
-              )}
-            </span>
+            <div>
+              <span className="text-2xl" onClick={() => setClick(!click)}>
+                {click ? (
+                  <Link>
+                    <BsHeartFill />
+                  </Link>
+                ) : (
+                  <Link>
+                    <BsHeart />
+                  </Link>
+                )}
+              </span>
+            </div>
           </div>
           <div>
             <h3 className="text-emerald-400 text-xl mb-2">Comment</h3>

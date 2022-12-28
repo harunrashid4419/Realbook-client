@@ -25,6 +25,7 @@ const Signup = () => {
                     .then(result => {})
                     .catch(error =>{})
                 console.log(user)
+                savedUserToDatabase(email, name);
                 setError('');
                 toast.success('SignUp successful');
                 navigate('/');
@@ -34,6 +35,21 @@ const Signup = () => {
                 setError(error.message);
             })
     };
+
+    const savedUserToDatabase = (email, name) =>{
+      const savedUser = {email, name}
+      fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(savedUser)
+      })
+        .then(res => res.json())
+        .then(data =>{
+          console.log(data);
+        })
+    }
 
     const handleEmail = event =>{
       setEmail(event.target.value);

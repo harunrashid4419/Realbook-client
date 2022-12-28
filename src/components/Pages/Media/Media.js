@@ -5,6 +5,7 @@ import "./Media.css";
 
 const Media = () => {
   const posts = useLoaderData();
+  const reversed = [...posts].reverse();
   return (
     <div className="main-post">
       <div className="container">
@@ -12,7 +13,7 @@ const Media = () => {
           All Posts
         </h3>
         <div className="media-section">
-          {posts.map((post) => (
+          {reversed.map((post) => (
             <SinglePost key={post._id} post={post}></SinglePost>
           ))}
         </div>

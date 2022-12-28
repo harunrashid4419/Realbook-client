@@ -6,6 +6,7 @@ import Signup from '../components/Signup/Signup';
 import Media from "../components/Pages/Media/Media";
 import Details from "../components/Pages/Details/Details";
 import PrivateRoutes from "./PrivateRoutes";
+import About from "../components/Pages/About/About";
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
                 path: '/post/:id',
                 element: <PrivateRoutes><Details></Details></PrivateRoutes>,
                 loader: ({params}) => fetch(`http://localhost:5000/posts/${params.id}`)
+            },
+            {
+                path: '/about',
+                element: <About></About>
             }
         ]
     }

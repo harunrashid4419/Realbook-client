@@ -1,0 +1,13 @@
+.main-about{
+    width: 60%;
+    margin: 0 auto;
+    padding: 50px 20px;
+    background-color: wheat;
+}
+
+@media screen and (max-width: 776px) {
+    .main-about{
+        width: 100%;
+        padding: 30px 20px;
+    }
+}

@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../context/UsersContext";
 import "./Post.css";
 
 const Post = () => {
   const { user } = useContext(AuthContext);
-  const imgKey = '2ed74405c9982edbe45a4ac8ae219bfb';
+  const imgKey = "2ed74405c9982edbe45a4ac8ae219bfb";
   const handlePost = (event) => {
     event.preventDefault();
     const message = event.target.message.value;
@@ -20,17 +20,18 @@ const Post = () => {
       .then((res) => res.json())
       .then((data) => {
         addToDatabase(message, data.data.display_url, user, event);
-      });    
+      });
   };
 
   const addToDatabase = (message, img, user, event) => {
     const mediaPost = {
-        message,
-        img,
-        userName: user?.displayName,
-        email: user?.email,
-        photoURL: user?.photoURL
-    }
+      message,
+      img,
+      userName: user?.displayName,
+      email: user?.email,
+      photoURL: user?.photoURL,
+      react: 0
+    };
     fetch("http://localhost:5000/media", {
       method: "POST",
       headers: {
@@ -41,8 +42,10 @@ const Post = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast.success('Post Successful');
-        event.target.reset();
+        if (data.acknowledged) {
+          toast.success("Post Successful");
+          event.target.reset();
+        }
       });
   };
 
