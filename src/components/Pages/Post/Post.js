@@ -47,7 +47,7 @@ const Post = () => {
   };
 
   return (
-    <div className="main-post">
+    <div className="post-section">
       <div className="post-section">
         <h3>Share Your Fellings</h3>
         <form onSubmit={handlePost}>
