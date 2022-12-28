@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UsersContext";
+import './Navbar.css';
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  console.log(user)
   const navigate = useNavigate();
 
   const handleSignOut = () =>{
@@ -61,8 +63,9 @@ const Navbar = () => {
                 </svg>
               </label>
               <ul
+                id="navbar_background"
                 tabIndex={0}
-                className="bg-black menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
               >
                 {menu}
               </ul>
