@@ -7,6 +7,7 @@ import Media from "../components/Pages/Media/Media";
 import Details from "../components/Pages/Details/Details";
 import PrivateRoutes from "./PrivateRoutes";
 import About from "../components/Pages/About/About";
+import TopRetedDetails from "../components/Pages/TopRetedDetails/TopRetedDetails";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home></Home>
+                element: <Home></Home>,
             },
             {
                 path: '/login',
@@ -38,7 +39,12 @@ const router = createBrowserRouter([
             {
                 path: '/about',
                 element: <About></About>
-            }
+            },
+            {
+                path: '/details/:id',
+                element: <PrivateRoutes><TopRetedDetails></TopRetedDetails></PrivateRoutes>,
+                loader: ({params}) => fetch(`http://localhost:5000/topPost/${params.id}`)
+            },
         ]
     }
 ])

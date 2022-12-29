@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/UsersContext";
 import "./Post.css";
 
@@ -30,7 +31,7 @@ const Post = () => {
       userName: user?.displayName,
       email: user?.email,
       photoURL: user?.photoURL,
-      react: 0
+      react: 0,
     };
     fetch("http://localhost:5000/media", {
       method: "POST",
@@ -50,28 +51,48 @@ const Post = () => {
   };
 
   return (
-    <div className="post-section">
+    <div>
       <div className="post-section">
-        <h3>Share Your Fellings</h3>
-        <form onSubmit={handlePost}>
-          <textarea
-            className="textarea textarea-success w-full"
-            placeholder="Type your Fellings"
-            name="message"
-          ></textarea>
-          <input
-            type="file"
-            className="input-info w-full max-w-xs"
-            name="img"
-            accept="image/*"
-          />
-          <br />
-          <input
-            type="submit"
-            value="Post"
-            className="btn btn-wide w-full mt-5"
-          />
-        </form>
+        <div className="post-section">
+          {user ? (
+            <>
+              <h3>Share Your Fellings</h3>
+              <form onSubmit={handlePost}>
+                <textarea
+                  className="textarea textarea-success w-full"
+                  placeholder="Type your Fellings"
+                  name="message"
+                ></textarea>
+                <input
+                  type="file"
+                  className="input-info w-full max-w-xs"
+                  name="img"
+                  accept="image/*"
+                />
+                <br />
+                <input
+                  type="submit"
+                  value="Post"
+                  className="btn btn-wide w-full mt-5"
+                />
+              </form>
+            </>
+          ) : (
+            <div className="text-center">
+              <h3>If you want to share your Fellings</h3>
+              <p className="text-orange-400 text-2xl">
+                Then{" "}
+                <Link className="text-blue-500" to="/login">
+                  LogIn
+                </Link>{" "}
+                OR{" "}
+                <Link to="/signup" className="text-blue-500">
+                  SignUp
+                </Link>
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

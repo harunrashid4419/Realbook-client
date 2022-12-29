@@ -1,0 +1,20 @@
+.top-post-section{
+    background-color: gray;
+    padding: 50px 0;
+}
+.top-post-section .top-react-post{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+@media screen and (max-width: 992px) {
+    .top-post-section .top-react-post{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media screen and (max-width: 776px) {
+    .top-post-section .top-react-post{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

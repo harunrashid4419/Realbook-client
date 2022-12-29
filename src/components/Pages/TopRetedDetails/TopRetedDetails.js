@@ -2,31 +2,29 @@ import React, { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
-import "./Detalis.css";
-import { useQuery } from "@tanstack/react-query";
 
-const Details = () => {
-  const details = useLoaderData();
-  const { photoURL, userName, email, img, message, react } = details;
+const TopRetedDetails = () => {
+  const topRetedPost = useLoaderData();
+  const { photoURL, userName, email, img, message, react } = topRetedPost;
   const [click, setClick] = useState(false);
   const [oldReact, setOldReact] = useState(react);
 
-  const handleReact = (_id) =>{
-    const reactCount = {oldReact};
-    console.log(reactCount)
-    fetch(`http://localhost:5000/posts/${details._id}`, {
+  const handleReact = () => {
+    const reactCount = { oldReact };
+    console.log(reactCount);
+    fetch(`http://localhost:5000/posts/${topRetedPost._id}`, {
       method: "PATCH",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json",
       },
-      body: JSON.stringify(reactCount)
+      body: JSON.stringify(reactCount),
     })
-      .then(res => res.json())
-      .then(data =>{
+      .then((res) => res.json())
+      .then((data) => {
         console.log(data);
-      })
-  }
-  
+      });
+  };
+
   return (
     <div className="details-section">
       <div className="container">
@@ -81,4 +79,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default TopRetedDetails;

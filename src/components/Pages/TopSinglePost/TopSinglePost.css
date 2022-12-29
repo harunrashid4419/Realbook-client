@@ -1,0 +1,9 @@
+#top-react-img{
+    height: 200px;
+}
+
+@media screen and (max-width: 776px) {
+    #top-react-img{
+        height: 100%;
+    }
+}
