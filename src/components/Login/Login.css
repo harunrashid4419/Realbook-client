@@ -6,6 +6,15 @@
     border-radius: 7px;
 }
 
+#password-field{
+    position: relative;
+}
+#eye-icon{
+    position: absolute;
+    top: 62%;
+    right: 3%;
+    transform: translate(-62%, -3%);
+}
 @media screen and (max-width: 767px) {
     .login-section{
         width: 100%;

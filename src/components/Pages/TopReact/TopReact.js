@@ -7,7 +7,7 @@ const TopReact = () => {
   const {data: topPost = [] } = useQuery({
     queryKey: ['topPosts'],
     queryFn: async() =>{
-        const res = await fetch('http://localhost:5000/topPost');
+        const res = await fetch('https://real-book-server.vercel.app/topPost');
         const data = await res.json();
         return data;
     }

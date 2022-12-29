@@ -16,18 +16,17 @@ const Details = () => {
   const { data: postComments = [], refetch } = useQuery({
     queryKey: ["comment"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/comment/${_id}`);
+      const res = await fetch(`https://real-book-server.vercel.app/comment/${_id}`);
       const data = await res.json();
       return data;
     },
   });
 
-  console.log(user);
 
   const handleReact = (_id) => {
     const reactCount = { oldReact };
     console.log(reactCount);
-    fetch(`http://localhost:5000/posts/${details._id}`, {
+    fetch(`https://real-book-server.vercel.app/posts/${details._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -54,7 +53,7 @@ const Details = () => {
       photoURL: user.photoURL,
       id: _id,
     };
-    fetch("http://localhost:5000/comment", {
+    fetch("https://real-book-server.vercel.app/comment", {
       method: "POST",
       headers: {
         "content-type": "application/json",

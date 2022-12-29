@@ -10,7 +10,7 @@ const About = () => {
     queryKey: ["users", user?.email],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/users?email=${user?.email}`
+        `https://real-book-server.vercel.app/users?email=${user?.email}`
       );
       const data = await res.json();
       return data;
@@ -29,7 +29,7 @@ const About = () => {
 
   const savedDatabase = (name, email, collage, address, event, refetch) => {
     const users = { name, email, collage, address };
-    fetch(`http://localhost:5000/users/${singleUser._id}`, {
+    fetch(`https://real-book-server.vercel.app/users/${singleUser._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

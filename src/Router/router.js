@@ -29,21 +29,21 @@ const router = createBrowserRouter([
             {
                 path: '/media',
                 element: <Media></Media>,
-                loader: () => fetch('http://localhost:5000/posts')
+                loader: () => fetch('https://real-book-server.vercel.app/posts')
             },
             {
                 path: '/post/:id',
                 element: <PrivateRoutes><Details></Details></PrivateRoutes>,
-                loader: ({params}) => fetch(`http://localhost:5000/posts/${params.id}`)
+                loader: ({params}) => fetch(`https://real-book-server.vercel.app/posts/${params.id}`)
             },
             {
                 path: '/about',
-                element: <About></About>
+                element: <PrivateRoutes><About></About></PrivateRoutes>
             },
             {
                 path: '/details/:id',
                 element: <PrivateRoutes><TopRetedDetails></TopRetedDetails></PrivateRoutes>,
-                loader: ({params}) => fetch(`http://localhost:5000/topPost/${params.id}`)
+                loader: ({params}) => fetch(`https://real-book-server.vercel.app/topPost/${params.id}`)
             },
         ]
     }

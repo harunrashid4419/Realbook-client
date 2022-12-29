@@ -3,50 +3,66 @@ import "./Login.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UsersContext";
 import { toast } from "react-hot-toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const {login, googleSignUp} = useContext(AuthContext);
-  const [error, setError] = useState('');
-  const [email, setEmail] = useState('');
+  const { login, googleSignUp, restorePassword } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [showPassword, setShawPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
 
-  const handleLogIn = event =>{
+  // email password login
+  const handleLogIn = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
-    
+
     login(email, password)
-      .then(result =>{
+      .then((result) => {
         const user = result.user;
         console.log(user);
-        toast.success('LogIn Successful');
-        navigate(from, {replace: true});
+        toast.success("LogIn Successful");
+        navigate(from, { replace: true });
       })
-      .catch(error =>{
+      .catch((error) => {
         console.log(error);
         setError(error.message);
-      })
-  }
+      });
+  };
 
-  const handleEmail = event =>{
+  // need email
+  const handleEmail = (event) => {
     setEmail(event.target.value);
-  }
+  };
 
-  const handleGoogleSingUp = () =>{
+  // google sign in
+  const handleGoogleSingUp = () => {
     googleSignUp(email)
-      .then(result =>{
+      .then((result) => {
         const user = result.user;
         console.log(user);
-        toast.success('Google SignUp success');
-        navigate('/');
+        toast.success("Google SignUp success");
+        navigate("/");
       })
-      .catch(error =>{
+      .catch((error) => {
         console.log(error);
         setError(error.message);
+      });
+  };
+
+  // forget password
+  const handleForget = () => {
+    restorePassword(email)
+      .then((result) => {
+        toast.success("Please check your email and reset password");
       })
-  }
+      .catch((error) => {
+        setEmail(error.message);
+      });
+  };
 
   return (
     <div className="container">
@@ -68,24 +84,40 @@ const Login = () => {
               onChange={handleEmail}
             />
           </div>
-          <div className="form-control w-full">
+          <div className="form-control w-full" id="password-field">
             <label className="label">
               <span className="label-text text-white">Password</span>
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="*********"
               className="input input-bordered w-full"
               name="password"
+              required
             />
+            <div onClick={() => setShawPassword(!showPassword)} id="eye-icon">
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </div>
           </div>
           <p className="text-red-500 py-3">{error}</p>
-          <input type="submit" value="Login" className="w-full mt-5 btn btn-wide" />
+          <div className="text-right">
+            <Link onClick={handleForget} className="text-green-400">
+              Forget Password?
+            </Link>
+          </div>
+          <input
+            type="submit"
+            value="Login"
+            className="w-full mt-5 btn btn-wide"
+          />
         </form>
         <div className="flex flex-col w-full border-opacity-50">
           <div className="divider text-white">OR</div>
         </div>
-        <div onClick={handleGoogleSingUp} className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
+        <div
+          onClick={handleGoogleSingUp}
+          className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl"
+        >
           <p className="text-center text-xl flex justify-center pl-4">
             Sign In With Google
           </p>

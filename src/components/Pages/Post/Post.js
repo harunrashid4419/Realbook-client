@@ -34,7 +34,7 @@ const Post = () => {
       photoURL: user?.photoURL,
       react: 0,
     };
-    fetch("http://localhost:5000/media", {
+    fetch("https://real-book-server.vercel.app/media", {
       method: "POST",
       headers: {
         "content-type": "application/json",

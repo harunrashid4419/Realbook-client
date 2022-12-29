@@ -2,72 +2,79 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UsersContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
-    const {createUser, updateUserName, googleSignUp} = useContext(AuthContext);
-    const navigate = useNavigate();
-    const [error, setError] = useState('');
-    const [email, setEmail] = useState('');
+  const { createUser, updateUserName, googleSignUp } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [showPassword, setShawPassword] = useState(false);
 
-    const handleSignup = event =>{
-        event.preventDefault();
-        const name = event.target.name.value;
-        const email = event.target.email.value;
-        const password = event.target.password.value;
-        
-        createUser(email, password)
-            .then(result =>{
-                const user = result.user;
-                const userName = {
-                    displayName: name,
-                };
-                updateUserName(userName)
-                    .then(result => {})
-                    .catch(error =>{})
-                console.log(user)
-                savedUserToDatabase(email, name);
-                setError('');
-                toast.success('SignUp successful');
-                navigate('/');
-            })
-            .catch(error =>{
-                console.log(error);
-                setError(error.message);
-            })
-    };
+  // create user
+  const handleSignup = (event) => {
+    event.preventDefault();
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const password = event.target.password.value;
 
-    const savedUserToDatabase = (email, name) =>{
-      const savedUser = {email, name}
-      fetch('http://localhost:5000/users', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(savedUser)
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        const userName = {
+          displayName: name,
+        };
+        updateUserName(userName)
+          .then((result) => {})
+          .catch((error) => {});
+        console.log(user);
+        savedUserToDatabase(email, name);
+        setError("");
+        toast.success("SignUp successful");
+        navigate("/");
       })
-        .then(res => res.json())
-        .then(data =>{
-          console.log(data);
-        })
-    }
+      .catch((error) => {
+        console.log(error);
+        setError(error.message);
+      });
+  };
 
-    const handleEmail = event =>{
-      setEmail(event.target.value);
-    }
+  // add to database
+  const savedUserToDatabase = (email, name) => {
+    const savedUser = { email, name };
+    fetch("https://real-book-server.vercel.app/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(savedUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
 
-    const handleGoogleSingUp = () =>{
-      googleSignUp(email)
-        .then(result =>{
-          const user = result.user;
-          console.log(user);
-          toast.success('Google SignUp success');
-          navigate('/');
-        })
-        .catch(error =>{
-          console.log(error);
-          setError(error.message);
-        })
-    }
+  // get email
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+  };
+
+  // google sign in
+  const handleGoogleSingUp = () => {
+    googleSignUp(email)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast.success("Google SignUp success");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+        setError(error.message);
+      });
+  };
 
   return (
     <div className="container">
@@ -101,24 +108,35 @@ const Signup = () => {
               onChange={handleEmail}
             />
           </div>
-          <div className="form-control w-full">
+          <div id="password-field" className="form-control w-full">
             <label className="label">
               <span className="label-text text-white">Password</span>
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="*********"
               className="input input-bordered w-full"
               name="password"
+              required
             />
+            <div onClick={() => setShawPassword(!showPassword)} id="eye-icon">
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
+            </div>
           </div>
           <p className="text-red-500 my-3">{error}</p>
-          <input type="submit" value="signup" className="w-full mt-5 btn btn-wide" />
+          <input
+            type="submit"
+            value="signup"
+            className="w-full mt-5 btn btn-wide"
+          />
         </form>
         <div className="flex flex-col w-full border-opacity-50">
           <div className="divider text-white">OR</div>
         </div>
-        <div onClick={handleGoogleSingUp} className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl">
+        <div
+          onClick={handleGoogleSingUp}
+          className="bg-white md:w-4/5 w-full mx-auto py-3 cursor-pointer rounded-3xl"
+        >
           <p className="text-center text-xl flex justify-center pl-4">
             Sign In With Google
           </p>

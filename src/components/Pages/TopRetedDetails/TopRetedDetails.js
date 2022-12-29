@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { useQuery } from "@tanstack/react-query";
+import { AuthContext } from "../../../context/UsersContext";
 
 const TopRetedDetails = () => {
   const topRetedPost = useLoaderData();
-  const { photoURL, userName, email, img, message, react } = topRetedPost;
+  const { photoURL, userName, email, img, message, react, _id } = topRetedPost;
   const [click, setClick] = useState(false);
   const [oldReact, setOldReact] = useState(react);
+  const { user } = useContext(AuthContext);
+
+  const { data: postComments = [], refetch } = useQuery({
+    queryKey: ["comment"],
+    queryFn: async () => {
+      const res = await fetch(
+        `https://real-book-server.vercel.app/comment/${_id}`
+      );
+      const data = await res.json();
+      return data;
+    },
+  });
 
   const handleReact = () => {
     const reactCount = { oldReact };
-    fetch(`http://localhost:5000/posts/${topRetedPost._id}`, {
+    fetch(`https://real-book-server.vercel.app/posts/${topRetedPost._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -21,8 +35,38 @@ const TopRetedDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if(data.modifiedCount > 0){
+        if (data.modifiedCount > 0) {
+        }
+      });
+  };
 
+  const handleComment = (event) => {
+    event.preventDefault();
+    const comment = event.target.comment.value;
+    addCommentToDB(comment, user, event, _id);
+  };
+
+  const addCommentToDB = (comment, user, event, _id) => {
+    const comments = {
+      comment,
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      id: _id,
+    };
+    fetch("https://real-book-server.vercel.app/comment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(comments),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.acknowledged) {
+          event.target.reset();
+          refetch();
         }
       });
   };
@@ -64,16 +108,37 @@ const TopRetedDetails = () => {
           </div>
           <div>
             <h3 className="text-emerald-400 text-xl mb-2">Comment</h3>
-            <textarea
-              className="textarea textarea-success w-full"
-              placeholder="Type your Comment"
-              name="comment"
-            ></textarea>
-            <input
-              type="submit"
-              value="Submit Comment"
-              className="btn btn-wide mt-3"
-            />
+            <form onSubmit={handleComment}>
+              <textarea
+                className="textarea textarea-success w-full"
+                placeholder="Type your Comment"
+                name="comment"
+              ></textarea>
+              <input
+                type="submit"
+                value="Submit Comment"
+                className="btn btn-wide mt-3"
+              />
+            </form>
+          </div>
+          <div className="comment-section">
+            {postComments.map((singleComment) => (
+              <div className="flex mb-5">
+                {singleComment?.photoURL ? (
+                  <img
+                    className="comment-img"
+                    src={singleComment?.photoURL}
+                    alt="userImg"
+                  />
+                ) : (
+                  <FaUserAlt className="comment-user" />
+                )}
+                <div className="ml-5 p-3 rounded-xl border-2">
+                  <h6 className="m-0">{singleComment?.name}</h6>
+                  <span>{singleComment.comment}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
