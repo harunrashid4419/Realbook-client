@@ -7,6 +7,7 @@ import "./Post.css";
 const Post = () => {
   const { user } = useContext(AuthContext);
   const imgKey = "2ed74405c9982edbe45a4ac8ae219bfb";
+  
   const handlePost = (event) => {
     event.preventDefault();
     const message = event.target.message.value;
@@ -62,12 +63,14 @@ const Post = () => {
                   className="textarea textarea-success w-full"
                   placeholder="Type your Fellings"
                   name="message"
+                  required
                 ></textarea>
                 <input
                   type="file"
                   className="input-info w-full max-w-xs"
                   name="img"
                   accept="image/*"
+                  required
                 />
                 <br />
                 <input

@@ -84,6 +84,7 @@ const About = () => {
             className="input input-bordered input-primary w-full mb-5"
           />
 
+          {/* modal */}
           <input type="checkbox" id="my-modal-3" className="modal-toggle" />
           <div className="modal">
             <div className="modal-box relative">
@@ -98,14 +99,14 @@ const About = () => {
                 <input
                   type="text"
                   placeholder="Type Name"
-                  value={singleUser?.name}
+                  defaultValue={singleUser?.name}
                   name="name"
                   className="input input-bordered input-accent w-full mt-3 mb-3"
                 />
                 <input
                   type="email"
                   placeholder="Type Email"
-                  value={singleUser?.email}
+                  defaultValue={singleUser?.email}
                   name="email"
                   className="input input-bordered input-accent w-full mb-3"
                 />
@@ -113,12 +114,14 @@ const About = () => {
                   type="text"
                   placeholder="Type Collage"
                   name="collage"
+                  defaultValue={singleUser?.collage}
                   className="input input-bordered input-accent w-full mb-3"
                 />
                 <input
                   type="text"
                   placeholder="Type Address"
                   name="address"
+                  defaultValue={singleUser?.address}
                   className="input input-bordered input-accent w-full mb-3"
                 />
                 <input

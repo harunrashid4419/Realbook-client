@@ -1,12 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { useLoaderData } from "react-router-dom";
-import TopRetedDetails from "../TopRetedDetails/TopRetedDetails";
 import TopSinglePost from "../TopSinglePost/TopSinglePost";
 import './TopPost.css';
 
 const TopReact = () => {
-  const {data: topPost = [], refetch} = useQuery({
+  const {data: topPost = [] } = useQuery({
     queryKey: ['topPosts'],
     queryFn: async() =>{
         const res = await fetch('http://localhost:5000/topPost');

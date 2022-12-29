@@ -11,7 +11,6 @@ const TopRetedDetails = () => {
 
   const handleReact = () => {
     const reactCount = { oldReact };
-    console.log(reactCount);
     fetch(`http://localhost:5000/posts/${topRetedPost._id}`, {
       method: "PATCH",
       headers: {
@@ -22,6 +21,9 @@ const TopRetedDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if(data.modifiedCount > 0){
+
+        }
       });
   };
 

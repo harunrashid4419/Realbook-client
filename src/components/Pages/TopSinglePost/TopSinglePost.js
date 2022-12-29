@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./TopSinglePost.css";
 
-const TopSinglePost = ({ post, refetch }) => {
+const TopSinglePost = ({ post }) => {
   const { message, img, _id } = post;
   return (
     <div>
