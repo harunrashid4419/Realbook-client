@@ -9,7 +9,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [showPassword, setShawPassword] = useState(false);
 
   // create user

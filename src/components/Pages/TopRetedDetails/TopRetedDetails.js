@@ -1,20 +1,18 @@
 import React, { useContext, useState } from "react";
-import { Link, useLoaderData, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../../context/UsersContext";
 
 const TopRetedDetails = () => {
-  // const topRetedPost = useLoaderData();
-
   const location = useLocation();
   const id = location.pathname.split("/details/")[1];
   
   const { data: topRetedPost = [], refetch: loading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/topPost/${id}`);
+      const res = await fetch(`https://real-book-server.vercel.app/topPost/${id}`);
       const data = await res.json();
       return data;
     },
@@ -37,7 +35,7 @@ const TopRetedDetails = () => {
 
   const handleReact = () => {
     const reactCount = { react };
-    fetch(`http://localhost:5000/posts/${topRetedPost._id}`, {
+    fetch(`https://real-book-server.vercel.app/posts/${topRetedPost._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

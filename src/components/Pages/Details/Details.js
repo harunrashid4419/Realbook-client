@@ -13,7 +13,7 @@ const Details = () => {
   const { data: details = [], refetch: loading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
-      const res = await fetch(`http://localhost:5000/posts/${id}`);
+      const res = await fetch(`https://real-book-server.vercel.app/posts/${id}`);
       const data = await res.json();
       return data;
     },
@@ -35,7 +35,7 @@ const Details = () => {
 
   const handleReact = (_id) => {
     const reactCount = { react };
-    fetch(`http://localhost:5000/posts/${details._id}`, {
+    fetch(`https://real-book-server.vercel.app/posts/${details._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
