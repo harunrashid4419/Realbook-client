@@ -42,7 +42,6 @@ const router = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <PrivateRoutes><TopRetedDetails></TopRetedDetails></PrivateRoutes>,
-                loader: ({params}) => fetch(`https://real-book-server.vercel.app/topPost/${params.id}`)
             },
         ]
     }
