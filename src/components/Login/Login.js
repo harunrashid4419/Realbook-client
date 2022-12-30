@@ -57,7 +57,7 @@ const Login = () => {
   // add to database
   const googleSingInAddDB = (email, displayName) => {
     const savedUser = { email, name: displayName };
-    fetch("http://localhost:5000/users", {
+    fetch("https://real-book-server.vercel.app/users", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
