@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import "./Detalis.css";
@@ -7,26 +7,35 @@ import { AuthContext } from "../../../context/UsersContext";
 import { useQuery } from "@tanstack/react-query";
 
 const Details = () => {
-  const details = useLoaderData();
+  const location = useLocation();
+  const id = location.pathname.split("/post/")[1];
+
+  const { data: details = [], refetch: loading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const res = await fetch(`http://localhost:5000/posts/${id}`);
+      const data = await res.json();
+      return data;
+    },
+  });
   const { photoURL, userName, email, img, message, react, _id } = details;
   const [click, setClick] = useState(false);
-  const [oldReact, setOldReact] = useState(react);
   const { user } = useContext(AuthContext);
 
   const { data: postComments = [], refetch } = useQuery({
-    queryKey: ["comment"],
+    queryKey: ["comment", details],
     queryFn: async () => {
-      const res = await fetch(`https://real-book-server.vercel.app/comment/${_id}`);
+      const res = await fetch(
+        `https://real-book-server.vercel.app/comment/${_id}`
+      );
       const data = await res.json();
       return data;
     },
   });
 
-
   const handleReact = (_id) => {
-    const reactCount = { oldReact };
-    console.log(reactCount);
-    fetch(`https://real-book-server.vercel.app/posts/${details._id}`, {
+    const reactCount = { react };
+    fetch(`http://localhost:5000/posts/${details._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -35,7 +44,9 @@ const Details = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        if (data.modifiedCount) {
+          loading();
+        }
       });
   };
 
@@ -62,7 +73,6 @@ const Details = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.acknowledged) {
           event.target.reset();
           refetch();
@@ -124,7 +134,11 @@ const Details = () => {
             {postComments.map((singleComment) => (
               <div className="flex mb-5">
                 {singleComment?.photoURL ? (
-                  <img className="comment-img" src={singleComment?.photoURL} alt="userImg" />
+                  <img
+                    className="comment-img"
+                    src={singleComment?.photoURL}
+                    alt="userImg"
+                  />
                 ) : (
                   <FaUserAlt className="comment-user" />
                 )}

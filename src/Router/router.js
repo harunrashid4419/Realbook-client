@@ -34,7 +34,6 @@ const router = createBrowserRouter([
             {
                 path: '/post/:id',
                 element: <PrivateRoutes><Details></Details></PrivateRoutes>,
-                loader: ({params}) => fetch(`https://real-book-server.vercel.app/posts/${params.id}`)
             },
             {
                 path: '/about',
