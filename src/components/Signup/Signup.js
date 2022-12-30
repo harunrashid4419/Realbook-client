@@ -67,12 +67,28 @@ const Signup = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        googleSingInAddDB(user.email, user.displayName);
         toast.success("Google SignUp success");
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
         setError(error.message);
+      });
+  };
+
+  const googleSingInAddDB = (email, displayName) => {
+    const savedUser = { email, name: displayName };
+    fetch("http://localhost:5000/users", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(savedUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
       });
   };
 

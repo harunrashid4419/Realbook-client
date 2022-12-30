@@ -35,7 +35,8 @@ const TopRetedDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (data.modifiedCount > 0) {
+        if (data.modifiedCount) {
+          refetch();
         }
       });
   };
